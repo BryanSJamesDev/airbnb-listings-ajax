@@ -20,7 +20,7 @@ and rewritten from scratch.
 - Price per night
 - Star rating, when the listing has one
 
-Clicking a card opens a detail overlay with the full description, the full
+Click a card to open a detail overlay with the full description, the full
 amenities list, and host info.
 
 ## Creative addition: the Trip Planner
