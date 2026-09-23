@@ -10,6 +10,21 @@ const DATA_URL = "./airbnb_sf_listings_500.json";
 const LISTING_COUNT = 50;
 const TRIP_STORAGE_KEY = "sf-fifty-trip";
 
+const PHOTO_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23e8e3d8'/%3E%3Ccircle cx='22' cy='24' r='4' fill='%23c9c2ad'/%3E%3Cpath d='M10 46l12-14 9 10 7-8 16 18H10z' fill='%23c9c2ad'/%3E%3C/svg%3E";
+const AVATAR_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23e8e3d8'/%3E%3Ccircle cx='32' cy='24' r='10' fill='%23c9c2ad'/%3E%3Cpath d='M14 54c2-13 10-19 18-19s16 6 18 19' fill='%23c9c2ad'/%3E%3C/svg%3E";
+
+function handlePhotoError(img) {
+  img.onerror = null; // stop it looping if the fallback itself ever fails
+  img.src = PHOTO_FALLBACK;
+}
+
+function handleAvatarError(img) {
+  img.onerror = null;
+  img.src = AVATAR_FALLBACK;
+}
+
 const els = {
   listings: document.querySelector("#listings"),
   emptyState: document.querySelector("#empty-state"),
@@ -118,6 +133,7 @@ function listingCardHtml(listing) {
           src="${escapeHtml(listing.picture_url || "")}"
           alt="${escapeHtml(listing.name || "Listing photo")}"
           loading="lazy"
+          onerror="handlePhotoError(this)"
         />
         ${
           listing.host_is_superhost === "t"
@@ -150,6 +166,7 @@ function listingCardHtml(listing) {
             src="${escapeHtml(listing.host_picture_url || "")}"
             alt="${escapeHtml(listing.host_name || "Host")}"
             loading="lazy"
+            onerror="handleAvatarError(this)"
           />
           <div class="host-name">
             ${escapeHtml(listing.host_name || "Host")}
@@ -273,7 +290,7 @@ function renderTrip() {
     .map(
       (listing) => `
       <li class="trip-item">
-        <img src="${escapeHtml(listing.picture_url || "")}" alt="" />
+        <img src="${escapeHtml(listing.picture_url || "")}" alt="" onerror="handlePhotoError(this)" />
         <div class="trip-item-info">
           <div class="trip-item-name">${escapeHtml(listing.name)}</div>
           <div class="trip-item-price">${formatMoney(
@@ -327,7 +344,7 @@ function openDetail(id) {
   els.detailContent.innerHTML = `
     <img class="detail-thumb" src="${escapeHtml(
       listing.picture_url || ""
-    )}" alt="${escapeHtml(listing.name || "")}" />
+    )}" alt="${escapeHtml(listing.name || "")}" onerror="handlePhotoError(this)" />
     <h2 id="detail-title">${escapeHtml(listing.name)}</h2>
     <p class="detail-meta">
       ${escapeHtml(listing.neighbourhood_cleansed || "San Francisco")} ·
@@ -337,7 +354,7 @@ function openDetail(id) {
     </p>
 
     <div class="detail-host">
-      <img src="${escapeHtml(listing.host_picture_url || "")}" alt="" />
+      <img src="${escapeHtml(listing.host_picture_url || "")}" alt="" onerror="handleAvatarError(this)" />
       <div>
         <strong>${escapeHtml(listing.host_name || "Host")}</strong>
         ${listing.host_is_superhost === "t" ? " · Superhost" : ""}
