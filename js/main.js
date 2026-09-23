@@ -171,7 +171,7 @@ function listingCardHtml(listing) {
           <div class="host-name">
             ${escapeHtml(listing.host_name || "Host")}
             <span>Hosting since ${
-              listing.host_since ? new Date(listing.host_since).getFullYear() : "—"
+              listing.host_since ? new Date(listing.host_since).getFullYear() : "-"
             }</span>
           </div>
           ${rating ? `<span class="rating-chip">★ ${rating}</span>` : ""}
@@ -314,11 +314,11 @@ function renderTrip() {
     .filter((r) => typeof r === "number");
   const avgRating = ratings.length
     ? (ratings.reduce((s, r) => s + r, 0) / ratings.length).toFixed(2)
-    : "—";
+    : "-";
 
   els.tripCount.textContent = items.length;
   els.tripTotal.textContent = `${formatMoney(total)} /night`;
-  els.tripAvgRating.textContent = ratings.length ? `★ ${avgRating}` : "—";
+  els.tripAvgRating.textContent = ratings.length ? `★ ${avgRating}` : "-";
 }
 
 function clearTrip() {
@@ -360,7 +360,7 @@ function openDetail(id) {
         ${listing.host_is_superhost === "t" ? " · Superhost" : ""}
         <div class="card-meta">
           Hosting since ${
-            listing.host_since ? new Date(listing.host_since).getFullYear() : "—"
+            listing.host_since ? new Date(listing.host_since).getFullYear() : "-"
           }
         </div>
       </div>
