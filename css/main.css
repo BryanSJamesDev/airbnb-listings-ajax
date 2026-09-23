@@ -582,12 +582,19 @@
     position: fixed;
     inset: 0;
     background: rgba(28, 35, 51, 0.55);
-    display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: 40px 20px;
     overflow-y: auto;
     z-index: 50;
+  }
+  
+  .detail-overlay:not([hidden]) { 
+    display: flex; 
+  } 
+  
+  .detail-overlay[hidden] { 
+    display: none; 
   }
   
   .detail-card {
