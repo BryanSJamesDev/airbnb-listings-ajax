@@ -31,7 +31,7 @@ Planner** panel on the right, which:
 - Keeps a running list of the listings you've picked, with a remove button on each
 - Shows the **combined nightly rate** across everything in the trip
 - Shows the **average host rating** across the trip
-- Persists to `localStorage`, so your trip survives a page reload
+- Saves to `localStorage`, so your trip survives a page reload
 
 It's a small planning tool layered on top of the listing data rather than
 just another display of it, letting you build out "night 1, night 2, night 3"
